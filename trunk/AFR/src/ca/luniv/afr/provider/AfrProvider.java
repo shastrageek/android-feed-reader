@@ -198,6 +198,7 @@ public class AfrProvider extends DatabaseContentProvider {
 			if (!TextUtils.isEmpty(selection)) {
 				where.append(" AND (").append(selection).append(')');
 			}
+			break;
 		case FEED_URI:
         	try {
     			where.append(Afr.FeedsColumns.URI).append("='").append(URLDecoder.decode(uri.getPathLeaf(), "utf-8")).append('\'');
@@ -799,6 +800,7 @@ public class AfrProvider extends DatabaseContentProvider {
 			if (!TextUtils.isEmpty(selection)) {
 				where.append(" AND (").append(selection).append(')');
 			}
+			break;
 		case FEED_URI:
         	try {
     			where.append(Afr.FeedsColumns.URI).append("='").append(URLDecoder.decode(uri.getPathLeaf(), "utf-8")).append('\'');
