@@ -32,7 +32,7 @@ import android.util.Log;
 public class AfrProvider extends DatabaseContentProvider {	
 	private static final String TAG = "AfrProvider";
 	private static final String DATABASE_NAME = "afr.db";
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 
 	private static enum URIPatternIds {
 		FEEDS,
