@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+$Id$
+
+Copyright (C) 2007 James Gilbertson <azurite@telusplanet.net>
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation; either version 2, or (at your option) any
+later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+-->
+<resources>
+    <string name="sort_asc">A to Z</string>
+    <string name="sort_desc">Z to A</string>
+    
+    <string name="feeds_new">New feed...</string>
+    <string name="feeds_info">Details</string>
+    <string name="feeds_refresh_all">Refresh all feeds</string>
+    <string name="feeds_refresh">Refresh</string>
+    <string name="feeds_delete">Delete</string>
+    
+    <!-- Sort submenu for items -->
+    <string name="sort_submenu">Sort</string>
+    
+    <string name="sort_items_author">Author</string>
+    <string name="sort_items_date">Date</string>
+</resources>

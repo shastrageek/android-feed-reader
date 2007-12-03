@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+$Id$
+
+Copyright (C) 2007 James Gilbertson <azurite@telusplanet.net>
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation; either version 2, or (at your option) any
+later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+-->
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:stretchColumns="1">
+    <TableRow android:layout_marginTop="5dip">
+	   	<TextView
+	   		android:text="URI: " 
+	    	android:padding="3dip" />
+	   	<TextView id="@+id/feed_uri" 
+	    	android:padding="3dip"/>
+    </TableRow>
+    <TableRow>
+	   	<TextView
+	   		android:text="Link: " 
+	    	android:padding="3dip" />
+	   	<TextView id="@+id/feed_link" 
+	    	android:padding="3dip"/>
+    </TableRow>
+    <TableRow>
+	   	<TextView
+	   		android:text="Last checked: " 
+	    	android:padding="3dip" />
+	   	<TextView id="@+id/feed_last_checked" 
+	    	android:padding="3dip"/>
+    </TableRow>
+    <TableRow>
+	   	<Button id="@android:id/button1" 
+			android:layout_width="wrap_content"
+			android:layout_marginTop="10dip"
+	   		android:gravity="right" 
+	   		android:text="OK" 
+	   		android:layout_span="1" />
+    </TableRow>
+</TableLayout>
