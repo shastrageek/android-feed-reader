@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+$Id$
+
+Copyright (C) 2007 James Gilbertson <azurite@telusplanet.net>
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation; either version 2, or (at your option) any
+later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ca.luniv.afr">
+    <application android:icon="@drawable/app_afr" android:theme="@android:style/Theme.Dark">
+        <activity class=".feeds.Feeds" android:label="@string/app_shortname">
+            <intent-filter>
+                <action android:value="android.intent.action.MAIN" />
+				<category android:value="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity class=".entries.Entries" android:label="@string/app_shortname">
+            <intent-filter>
+                <action android:value="android.intent.action.VIEW" />
+                <category android:value="android.intent.category.DEFAULT" />
+                <type android:value="vnd.android.cursor.dir/vnd.afr.item" />
+            </intent-filter>
+        </activity>
+
+        <activity class=".entries.EntryViewer" android:label="@string/app_shortname">
+            <intent-filter>
+                <action android:value="android.intent.action.VIEW" />
+                <category android:value="android.intent.category.DEFAULT" />
+                <type android:value="vnd.android.cursor.item/vnd.afr.item" />
+            </intent-filter>
+        </activity>
+        
+		<provider class=".provider.AfrProvider" android:authorities="ca.luniv.afr.provider.Afr" />
+        
+        <service class=".service.FeedRetrieverService" android:label="@string/app_service_name" />
+    </application>
+</manifest> 

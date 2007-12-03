@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+$Id$
+
+Copyright (C) 2007 James Gilbertson <azurite@telusplanet.net>
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation; either version 2, or (at your option) any
+later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+-->
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:stretchColumns="1">
+    <TableRow android:layout_marginTop="5dip">
+	   	<TextView
+	   		android:text="Feed URI" 
+	    	android:padding="3dip" />
+	   	<EditText id="@+id/feed_uri" 
+	        android:capitalize="none"
+	        android:singleLine="true"
+	    	android:padding="3dip"
+	    	android:layout_span="3" />
+    </TableRow>
+    <TableRow android:gravity="right" android:layout_marginTop="10dip">
+    	<Button id="@android:id/button1" android:text="Cancel" android:layout_column="2" />
+    	<Button id="@android:id/button2" android:text="Add" android:layout_column="3" />
+    </TableRow>
+</TableLayout>
