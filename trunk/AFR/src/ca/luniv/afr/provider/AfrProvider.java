@@ -143,6 +143,9 @@ public class AfrProvider extends DatabaseContentProvider {
 		mDb.execSQL(Afr.Categories.SQL.create);
 		mDb.execSQL(Afr.Categories.SQL.create_category_trigger);
 		mDb.execSQL(Afr.CategoryLinks.SQL.create);
+
+        Log.i(TAG, "Database created, schema version " + DATABASE_VERSION);
+		mDb.setVersion(DATABASE_VERSION);
 	}
 	
 	@Override
