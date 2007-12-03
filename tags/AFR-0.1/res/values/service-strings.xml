@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+$Id$
+
+Copyright (C) 2007 James Gilbertson <azurite@telusplanet.net>
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation; either version 2, or (at your option) any
+later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+-->
+<resources>
+    <string name="feed_retriever_notification">Retrieving feed from %1$s</string>
+    <string name="feed_retriever_notification_dl">Retrieving feed from %1$s (%2$s%% downloaded)</string>
+	
+    <string name="feed_retriever_err_unspecified_no_details">Error retrieving feed.</string>
+    <string name="feed_retriever_err_unspecified">Error retrieving feed from %1$s.</string>
+    <string name="feed_retriever_err_unknown_host">Can\'t find the server at %1$s.</string>
+    <string name="feed_retriever_err_timed_out">The server at %1$s timed out.</string>
+    <string name="feed_retriever_err_auth_req">Authentication required to access the feed at %1$s.</string>
+    <string name="feed_retriever_err_not_found">The feed at %1$s couldn\'t be found.</string>
+    <string name="feed_retriever_err_client">There was an error retrieving the feed from %1$s.</string>
+    <string name="feed_retriever_err_server">The server at %1$s encountered an error.</string>
+    <string name="feed_retriever_err_parse">There was an error parsing the feed from %1$s.</string>
+    
+    <string name="feed_retriever_info_saved">The feed at %1$s was successfully retrieved.</string>
+</resources>
