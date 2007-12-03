@@ -217,6 +217,7 @@ public class AfrProvider extends DatabaseContentProvider {
 			if (!TextUtils.isEmpty(selection)) {
 				where.append(" AND (").append(selection).append(')');
 			}
+			break;
 		case FEEDS:
 			break;
 		}
@@ -819,6 +820,7 @@ public class AfrProvider extends DatabaseContentProvider {
 			if (!TextUtils.isEmpty(selection)) {
 				where.append(" AND (").append(selection).append(')');
 			}
+			break;
 		case FEEDS:
 			break;
 		}
