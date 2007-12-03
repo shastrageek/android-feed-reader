@@ -21,7 +21,7 @@ import android.provider.BaseColumns;
 public final class Afr {
 	public static final String AUTHORITY = "ca.luniv.afr.provider.Afr";
 	public static final String DATABASE_NAME = "afr.db";
-	public static final int DATABASE_VERSION = 2;
+	public static final int DATABASE_VERSION = 3;
 	
 	public interface FeedsColumns extends BaseColumns {
 		/**
@@ -84,7 +84,7 @@ public final class Afr {
 				");";
 			static final String create_item_trigger = "CREATE TRIGGER fkd_feeds_items BEFORE DELETE ON feeds " +
 				"FOR EACH ROW BEGIN " +
-				"   DELETE FROM items WHERE feed = OLD._id; " +
+				"   DELETE FROM entries WHERE feed = OLD._id; " +
 				"END;";
 			static final String create_category_trigger = "CREATE TRIGGER fkd_feeds_category_links BEFORE DELETE ON feeds " +
 				"FOR EACH ROW BEGIN " +
