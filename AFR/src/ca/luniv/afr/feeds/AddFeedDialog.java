@@ -44,6 +44,7 @@ public class AddFeedDialog extends Dialog {
 		setContentView(R.layout.add_feed_dialog);
 		
 		uriField = (EditText) findViewById(R.id.feed_uri);
+		uriField.append("http://");
 		uriField.setKeyListener(new View.OnKeyListener() {
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
 				if (keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_NEWLINE) {
