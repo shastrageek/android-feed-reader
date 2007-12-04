@@ -180,7 +180,7 @@ public class Entries extends ListActivity {
     		
     		// Date
     		t = (TextView) view.findViewById(R.id.item_time);
-    		t.setText(Utils.formatDate(Utils.DEFAULT_DATE_FORMATS, cursor.getLong(2)));
+    		t.setText(Utils.formatDate(Utils.DEFAULT_12H_DATE_FORMATS, cursor.getLong(2)));
     		
     		if (read) {
     			t.setTextColor(0xffaaaaaa);
