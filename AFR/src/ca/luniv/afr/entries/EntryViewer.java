@@ -29,6 +29,7 @@ public class EntryViewer extends Activity {
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+        setContentView(R.layout.entry_view);
         
         entryId = (Long) getIntent().getExtra(Afr.EntriesColumns._ID);
         Cursor c = managedQuery(Afr.Entries.CONTENT_URI.addId(entryId), null, null, null, null);
@@ -53,11 +54,10 @@ public class EntryViewer extends Activity {
         post.append("</body>");
         post.append("</html>");
         
-        WebView webView = new WebView(this);
+        WebView webView = (WebView) findViewById(R.id.entry);
         // XXX: this doesn't work for some reason
         //webView.setBackground(null);
         webView.loadData(post.toString(), "text/html", "utf-8");
         
-        setContentView(webView);
     }
 }
