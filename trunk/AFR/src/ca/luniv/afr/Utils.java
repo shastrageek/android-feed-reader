@@ -27,9 +27,16 @@ import ca.luniv.afr.widget.ListSectionManager.Range;
 import ca.luniv.afr.widget.ListSectionManager.Range.EndpointType;
 
 public class Utils {
-	public static final String[] DEFAULT_DATE_FORMATS = {
+	public static final String[] DEFAULT_12H_DATE_FORMATS = {
 		"h:mm aa",
 		"EEE h:mm aa",
+		"EEE dd/MM",
+		"dd/MM/yyyy"
+	};
+	
+	public static final String[] DEFAULT_24H_DATE_FORMATS = {
+		"kk:mm",
+		"EEE kk:mm ",
 		"EEE dd/MM",
 		"dd/MM/yyyy"
 	};
