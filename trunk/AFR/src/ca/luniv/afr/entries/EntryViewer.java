@@ -23,7 +23,7 @@ import android.webkit.WebView;
 import ca.luniv.afr.R;
 import ca.luniv.afr.provider.Afr;
 
-public class EntryViewer extends Activity {
+public class EntryViewer extends Activity {	
 	private long entryId;
 	
     @Override
@@ -41,8 +41,22 @@ public class EntryViewer extends Activity {
         values.put(Afr.Entries.READ, Boolean.TRUE);
         getContentResolver().update(Afr.Entries.CONTENT_URI.addId(entryId), values, null, null);
         
+        // TODO: template or make configurable
+        StringBuilder post = new StringBuilder();
+        post.append("<html>");
+        post.append("<head>");
+        post.append("<title>").append(c.getString(c.getColumnIndex(Afr.Entries.TITLE))).append("</title>");
+        post.append("<style type=\"text/css\"> body { background-color: #201c19; color: white; } a { color: orange; } </style>");
+        post.append("</head>");
+        post.append("<body>");
+        post.append(c.getString(c.getColumnIndex(Afr.Entries.CONTENT)));
+        post.append("</body>");
+        post.append("</html>");
+        
         WebView webView = new WebView(this);
-        webView.loadData(c.getString(c.getColumnIndex(Afr.Entries.CONTENT)), "text/html", "utf-8");
+        // XXX: this doesn't work for some reason
+        //webView.setBackground(null);
+        webView.loadData(post.toString(), "text/html", "utf-8");
         
         setContentView(webView);
     }
