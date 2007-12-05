@@ -29,7 +29,12 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.view.View;
+import android.view.ViewInflate;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
+import ca.luniv.afr.R;
 import ca.luniv.afr.widget.SectionedListAdapter.ListSection;
 
 public class ListSectionManager<T extends Comparable<T>> {
@@ -260,7 +265,19 @@ public class ListSectionManager<T extends Comparable<T>> {
 	}
 
 	public View makeSectionHeaderView(ListSection section, ListSectionGroup<T> sectionGroup) {
-		TextView headerText = new TextView(context){
+		ViewInflate inflater = (ViewInflate) context.getSystemService(Context.INFLATE_SERVICE);
+		View layout = inflater.inflate(R.layout.list_section_header, null, null);
+		
+		TextView header = (TextView) layout.findViewById(R.id.list_section_header_title);
+		header.setPadding(13, 5, 13, 5);
+		header.setText(sectionGroup.name);
+		header.setTextColor(Color.LTGRAY);
+		header.setTypeface(Typeface.DEFAULT_BOLD);
+		
+		ImageView state = (ImageView) layout.findViewById(R.id.list_section_header_state);
+		state.setImageDrawable(context.getResources().getDrawable(R.drawable.collapse));
+		
+		FrameLayout container = new FrameLayout(context) {
     		@Override
     		protected void dispatchDraw(Canvas canvas) {
     			Rect r = new Rect();
@@ -276,12 +293,8 @@ public class ListSectionManager<T extends Comparable<T>> {
     			super.dispatchDraw(canvas);
     		}
 		};
-		//headerText.setBackgroundColor(Color.DKGRAY);
-		headerText.setPadding(13, 5, 13, 5);
-		headerText.setText(sectionGroup.name);
-		headerText.setTextColor(Color.LTGRAY);
-		headerText.setTypeface(Typeface.DEFAULT_BOLD);
-		return headerText;
+		container.addView(layout, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+		return container;
 	}
 	
 	/**
