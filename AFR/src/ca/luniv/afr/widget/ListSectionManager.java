@@ -269,7 +269,6 @@ public class ListSectionManager<T extends Comparable<T>> {
 		View layout = inflater.inflate(R.layout.list_section_header, null, null);
 		
 		TextView header = (TextView) layout.findViewById(R.id.list_section_header_title);
-		header.setPadding(13, 5, 13, 5);
 		header.setText(sectionGroup.name);
 		header.setTextColor(Color.LTGRAY);
 		header.setTypeface(Typeface.DEFAULT_BOLD);

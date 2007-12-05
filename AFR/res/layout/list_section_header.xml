@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+$Id: feed_row.xml 5 2007-12-03 04:44:54Z azurite@telusplanet.net $
+
+Copyright (C) 2007 James Gilbertson <azurite@telusplanet.net>
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation; either version 2, or (at your option) any
+later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+   	android:paddingTop="3dip"
+	android:paddingLeft="13dip"
+	android:paddingBottom="3dip"
+	android:paddingRight="13dip">    
+   	<TextView id="@+id/list_section_header_title" 
+    	android:layout_height="wrap_content"
+   		android:layout_weight="1" 
+   		android:layout_width="wrap_content"
+   		android:paddingRight="3dip" />
+   	<ImageView id="@+id/list_section_header_state"  
+    	android:layout_height="wrap_content"
+   		android:layout_width="wrap_content"
+   		android:paddingTop="5dip"/>
+</LinearLayout>
