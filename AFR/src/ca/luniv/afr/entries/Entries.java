@@ -36,10 +36,13 @@ import android.view.ViewInflate;
 import android.view.Menu.Item;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import ca.luniv.afr.Prefs;
 import ca.luniv.afr.R;
 import ca.luniv.afr.Utils;
+import ca.luniv.afr.Prefs.HourFormat;
 import ca.luniv.afr.provider.Afr;
 import ca.luniv.afr.widget.ListSectionManager;
 import ca.luniv.afr.widget.SectionedListAdapter;
@@ -61,7 +64,8 @@ public class Entries extends ListActivity {
 	
     private long feedId;
     private Cursor cursor;
-	
+    private HourFormat hourFormat;
+    
 	@Override
     public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
@@ -73,8 +77,10 @@ public class Entries extends ListActivity {
 		feedId = (Long) getIntent().getExtra(Afr.Feeds._ID);
 		
         getListView().setSelector(R.drawable.list_highlight_background_blue);
-        //getListView().setDrawSelectorOnTop(true);
 
+        // 12 or 24 hour format?
+        hourFormat = HourFormat.values()[getPreferences(0).getInt(Prefs.FORMAT_HOURS, 0)];
+        
 		// make the list sections
 		List<Range<Long>> ranges = Utils.makeDateRanges();
 		
@@ -90,6 +96,14 @@ public class Entries extends ListActivity {
     	if (v.getTag() instanceof ListSection) {
     		ListSection section = (ListSection) v.getTag();
     		section.setCollapsed(!section.isCollapsed());
+
+			ImageView state = (ImageView) v.findViewById(R.id.list_section_header_state);
+    		if (!section.isCollapsed()) {
+    			state.setImageDrawable(getResources().getDrawable(R.drawable.collapse));
+    		} else {
+    			state.setImageDrawable(getResources().getDrawable(R.drawable.expand));
+    		}
+    		
     		return;
     	}
     	
@@ -180,7 +194,14 @@ public class Entries extends ListActivity {
     		
     		// Date
     		t = (TextView) view.findViewById(R.id.item_time);
-    		t.setText(Utils.formatDate(Utils.DEFAULT_12H_DATE_FORMATS, cursor.getLong(2)));
+    		switch (hourFormat) {
+			case Hours_12:
+	    		t.setText(Utils.formatDate(Utils.DEFAULT_12H_DATE_FORMATS, cursor.getLong(2)));
+				break;
+			case Hours_24:
+	    		t.setText(Utils.formatDate(Utils.DEFAULT_24H_DATE_FORMATS, cursor.getLong(2)));
+				break;
+			}
     		
     		if (read) {
     			t.setTextColor(0xffaaaaaa);
