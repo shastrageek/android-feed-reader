@@ -23,11 +23,11 @@ General Public License for more details.
 	android:paddingRight="13dip">    
    	<TextView id="@+id/list_section_header_title" 
     	android:layout_height="wrap_content"
-   		android:layout_weight="1" 
    		android:layout_width="wrap_content"
+   		android:layout_weight="1" 
    		android:paddingRight="3dip" />
    	<ImageView id="@+id/list_section_header_state"  
+   		android:layout_gravity="center_vertical" 
     	android:layout_height="wrap_content"
-   		android:layout_width="wrap_content"
-   		android:paddingTop="5dip"/>
+   		android:layout_width="wrap_content" />
 </LinearLayout>
