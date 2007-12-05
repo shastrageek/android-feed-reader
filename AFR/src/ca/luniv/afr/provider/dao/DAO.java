@@ -121,6 +121,19 @@ public abstract class DAO implements BaseColumns {
 		ContentURI uri = getContentURI().addId(id);
 		return contentResolver.update(uri, values, null, null) == 1;
 	}
+	
+	public ContentValues getContentValues() {
+		ContentValues values = new ContentValues();
+		if (id != -1) {
+			values.put(BaseColumns._ID, id);
+		}
+		
+		if (!doSaveOrUpdate(values)) {
+			return null;
+		}
+		
+		return values;
+	}
 
 	protected abstract boolean doSaveOrUpdate(ContentValues values);
 	
