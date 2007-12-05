@@ -47,7 +47,7 @@ public class EntryViewer extends Activity {
         post.append("<html>");
         post.append("<head>");
         post.append("<title>").append(c.getString(c.getColumnIndex(Afr.Entries.TITLE))).append("</title>");
-        post.append("<style type=\"text/css\"> body { background-color: #201c19; color: white; } a { color: orange; } </style>");
+        post.append("<style type=\"text/css\"> body { background-color: #201c19 !important; color: white !important; } a { color: orange !important; } </style>");
         post.append("</head>");
         post.append("<body>");
         post.append(c.getString(c.getColumnIndex(Afr.Entries.CONTENT)));
