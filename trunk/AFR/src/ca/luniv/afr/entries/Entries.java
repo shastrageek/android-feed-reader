@@ -72,25 +72,31 @@ public class Entries extends ListActivity {
     public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
 		
-		String name = (String) getIntent().getExtra(Afr.Feeds.NAME);
-		if (name != null) {
-			setTitle(name + " - " + getText(R.string.app_shortname));
-		}
-		feedId = (Long) getIntent().getExtra(Afr.Feeds._ID);
-		
         // 12 or 24 hour format?
         hourFormat = HourFormat.values()[getPreferences(0).getInt(Prefs.FORMAT_HOURS, 0)];
         
-		// make the list sections
-		List<Range<Long>> ranges = Utils.makeDateRanges();
+        // override the default selector so we don't get the unwanted list padding
         getListView().setSelector(R.drawable.list_highlight_background_blue);
+        
+        setupListAdapter((Long) getIntent().getExtra(Afr.Feeds._ID), 
+        		(String) getIntent().getExtra(Afr.Feeds.NAME));
+    }
+	
+	private void setupListAdapter(long feedId, String feedName) {
+		this.feedId = feedId;
+		setTitle(feedName + " - " + getText(R.string.app_shortname));
 		
 		ContentURI queryURI = Afr.Feeds.CONTENT_URI.addId(feedId).addPath("entries");
-		
         cursor = managedQuery(queryURI, itemsProjection, null, null, Afr.Entries.DEFAULT_SORT_ORDER);
-        
-        setListAdapter(new ItemsListAdapter(this, cursor, new ListSectionManager<Long>(this, Afr.Entries.DATE, ranges, Long.class)));
-    }
+		
+		SectionedListAdapter adapter = (SectionedListAdapter) getListView().getAdapter();
+		if (adapter == null) {
+			List<Range<Long>> ranges = Utils.makeDateRanges();
+	        setListAdapter(new ItemsListAdapter(this, cursor, new ListSectionManager<Long>(this, Afr.Entries.DATE, ranges, Long.class)));
+		} else {
+			adapter.changeCursor(cursor);
+		}
+	}
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -117,13 +123,7 @@ public class Entries extends ListActivity {
 				}
 			}
 
-			feedId = c.getLong(0);
-			setTitle(c.getString(1) + " - " + getText(R.string.app_shortname));
-			
-			ContentURI queryURI = Afr.Feeds.CONTENT_URI.addId(feedId).addPath("entries");
-	        cursor = managedQuery(queryURI, itemsProjection, null, null, Afr.Entries.DEFAULT_SORT_ORDER);
-			List<Range<Long>> ranges = Utils.makeDateRanges();
-	        setListAdapter(new ItemsListAdapter(this, cursor, new ListSectionManager<Long>(this, Afr.Entries.DATE, ranges, Long.class)));
+			setupListAdapter(c.getLong(0), c.getString(1));
 	        return true;
 		}
 		
