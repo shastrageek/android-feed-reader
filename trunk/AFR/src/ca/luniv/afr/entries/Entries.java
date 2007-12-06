@@ -97,6 +97,7 @@ public class Entries extends ListActivity {
     		ListSection section = (ListSection) v.getTag();
     		section.setCollapsed(!section.isCollapsed());
 
+    		// TODO: move this code to list section?
 			ImageView state = (ImageView) v.findViewById(R.id.list_section_header_state);
     		if (!section.isCollapsed()) {
     			state.setImageDrawable(getResources().getDrawable(R.drawable.collapse));
