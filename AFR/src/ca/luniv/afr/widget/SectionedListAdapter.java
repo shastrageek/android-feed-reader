@@ -170,8 +170,8 @@ public abstract class SectionedListAdapter extends BaseAdapter {
 	
 	public void changeCursor(Cursor cursor) {
 		if (this.cursor != null) {
-			cursor.unregisterContentObserver(contentObserver);
-			cursor.unregisterDataSetObserver(dataSetObserver);
+			this.cursor.unregisterContentObserver(contentObserver);
+			this.cursor.unregisterDataSetObserver(dataSetObserver);
 		}
 		
 		if (sectionManager != null) {
