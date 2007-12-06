@@ -29,6 +29,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.net.ContentURI;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,7 @@ import ca.luniv.afr.R;
 import ca.luniv.afr.Utils;
 import ca.luniv.afr.Prefs.HourFormat;
 import ca.luniv.afr.provider.Afr;
+import ca.luniv.afr.provider.Afr.FeedsColumns;
 import ca.luniv.afr.widget.ListSectionManager;
 import ca.luniv.afr.widget.SectionedListAdapter;
 import ca.luniv.afr.widget.ListSectionManager.Group;
@@ -76,13 +78,12 @@ public class Entries extends ListActivity {
 		}
 		feedId = (Long) getIntent().getExtra(Afr.Feeds._ID);
 		
-        getListView().setSelector(R.drawable.list_highlight_background_blue);
-
         // 12 or 24 hour format?
         hourFormat = HourFormat.values()[getPreferences(0).getInt(Prefs.FORMAT_HOURS, 0)];
         
 		// make the list sections
 		List<Range<Long>> ranges = Utils.makeDateRanges();
+        getListView().setSelector(R.drawable.list_highlight_background_blue);
 		
 		ContentURI queryURI = Afr.Feeds.CONTENT_URI.addId(feedId).addPath("entries");
 		
@@ -90,7 +91,45 @@ public class Entries extends ListActivity {
         
         setListAdapter(new ItemsListAdapter(this, cursor, new ListSectionManager<Long>(this, Afr.Entries.DATE, ranges, Long.class)));
     }
-    
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT || keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+			// TODO: use current feeds list sort order
+			Cursor c = managedQuery(Afr.Feeds.CONTENT_URI, new String[] { FeedsColumns._ID, FeedsColumns.NAME }, null, null);
+			
+			// find the current feed
+			for (c.first(); !c.isAfterLast() && c.getLong(0) != feedId; c.next());
+			
+			if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+				// previous feed
+				if (c.isFirst()) {
+					c.last();
+				} else {
+					c.prev();
+				}
+			} else {
+				// next feed
+				if (c.isLast()) {
+					c.first();
+				} else {
+					c.next();
+				}
+			}
+
+			feedId = c.getLong(0);
+			setTitle(c.getString(1) + " - " + getText(R.string.app_shortname));
+			
+			ContentURI queryURI = Afr.Feeds.CONTENT_URI.addId(feedId).addPath("entries");
+	        cursor = managedQuery(queryURI, itemsProjection, null, null, Afr.Entries.DEFAULT_SORT_ORDER);
+			List<Range<Long>> ranges = Utils.makeDateRanges();
+	        setListAdapter(new ItemsListAdapter(this, cursor, new ListSectionManager<Long>(this, Afr.Entries.DATE, ranges, Long.class)));
+	        return true;
+		}
+		
+		return super.onKeyDown(keyCode, event);
+	}
+	
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
     	if (v.getTag() instanceof ListSection) {
