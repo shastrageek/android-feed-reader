@@ -32,7 +32,7 @@ import ca.luniv.afr.provider.Afr;
 
 public class Entry extends DAO implements Afr.EntriesColumns, Parcelable {
 	protected long feed = -1;
-	protected URI uri;
+	protected String uri;
 	protected String title;
 	protected String author;
 	protected Date date;
@@ -46,7 +46,7 @@ public class Entry extends DAO implements Afr.EntriesColumns, Parcelable {
 			Entry item = new Entry(null, source.readLong());
 			try {
 				item.feed = source.readLong();
-				item.uri = new URI(source.readString());
+				item.uri = source.readString();
 				item.title = source.readString();
 				item.author = source.readString();
 				item.date = new Date(source.readLong());
@@ -92,18 +92,18 @@ public class Entry extends DAO implements Afr.EntriesColumns, Parcelable {
 	}
 	
 	public boolean loadByUri() {
-		if (uri == null) {
-			return false;
+		if (uri != null) {
+			String path = null;
+			try {
+				path = URLEncoder.encode(uri, "utf-8");
+			} catch (UnsupportedEncodingException e) {
+				// should never happen
+			}
+			
+			return load(Afr.Entries.CONTENT_FILTER_URI_URI.addPath(path));
 		}
 		
-		String path = null;
-		try {
-			path = URLEncoder.encode(uri.toString(), "utf-8");
-		} catch (UnsupportedEncodingException e) {
-			// should never happen
-		}
-		
-		return load(Afr.Entries.CONTENT_FILTER_URI_URI.addPath(path));
+		return false;
 	}
 	
 	@Override
@@ -114,7 +114,7 @@ public class Entry extends DAO implements Afr.EntriesColumns, Parcelable {
 					feed = cursor.getLong(cursor.getColumnIndex(FEED));
 				}
 				if (cursor.getColumnIndex(URI) != -1) {
-					uri = new URI(cursor.getString(cursor.getColumnIndex(URI)));
+					uri = cursor.getString(cursor.getColumnIndex(URI));
 				}
 				if (cursor.getColumnIndex(TITLE) != -1) {
 					title = cursor.getString(cursor.getColumnIndex(TITLE));
@@ -139,7 +139,7 @@ public class Entry extends DAO implements Afr.EntriesColumns, Parcelable {
 				}
 			} else {
 				feed = cursor.getLong(1);
-				uri = new URI(cursor.getString(2));
+				uri = cursor.getString(2);
 				title = cursor.getString(3);
 				author = cursor.getString(4);
 				date = new Date(cursor.getLong(5));
@@ -157,6 +157,7 @@ public class Entry extends DAO implements Afr.EntriesColumns, Parcelable {
 	@Override
 	protected boolean doSaveOrUpdate(ContentValues values) {
 		if (feed == -1 || 
+			uri == null ||
 			author == null || title == null || date == null || 
 			content == null || type == null) {
 			return false;
@@ -194,11 +195,11 @@ public class Entry extends DAO implements Afr.EntriesColumns, Parcelable {
 		this.feed = feed;
 	}
 
-	public URI getUri() {
+	public String getUri() {
 		return uri;
 	}
 
-	public void setUri(URI uri) {
+	public void setUri(String uri) {
 		this.uri = uri;
 	}
 

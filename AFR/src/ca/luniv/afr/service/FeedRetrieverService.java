@@ -24,6 +24,7 @@ import java.net.SocketTimeoutException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -38,14 +39,15 @@ import org.apache.http.HttpStatus;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.DeadObjectException;
 import android.os.IBinder;
 import android.util.Log;
 import ca.luniv.afr.R;
 import ca.luniv.afr.provider.Afr;
-import ca.luniv.afr.provider.dao.Feed;
 import ca.luniv.afr.provider.dao.Entry;
+import ca.luniv.afr.provider.dao.Feed;
 
 import com.sun.syndication.feed.synd.SyndContent;
 import com.sun.syndication.feed.synd.SyndEntry;
@@ -309,26 +311,26 @@ public class FeedRetrieverService extends Service {
 			
 			feed.saveOrUpdate();
 
+			ArrayList<ContentValues> entries = new ArrayList<ContentValues>(parsedFeed.getEntries().size());
 			for (SyndEntry entry : (List<SyndEntry>) parsedFeed.getEntries()) {
-				saveEntry(entry);
+				ContentValues values = processEntry(entry);
+				if (values != null) {
+					entries.add(values);
+				}
 			}
+			
+			ContentValues[] bulkValues = entries.toArray(new ContentValues[entries.size()]);
+			getContentResolver().bulkInsert(Afr.Entries.CONTENT_URI, bulkValues);
 		}
 		
 		@SuppressWarnings("unchecked")
-		void saveEntry(SyndEntry parsedEntry) {
+		ContentValues processEntry(SyndEntry parsedEntry) {
 			Entry entry = new Entry(getContentResolver());
 
 			// check if this item has already been retrieved (and stop if it has)
-			try {
-				entry.setUri(new URI(parsedEntry.getUri()));
-			} catch (URISyntaxException e) {
-				Log.e("AFR", "FeedRetrieverService.retriever.saveItem(): failed to parse '" + parsedEntry.getUri() + "'", e);
-				displayErrorNotification(R.string.feed_retriever_err_unspecified, 
-						feed.getName() != null ? feed.getName() : feed.getUri().toString());
-				return;
-			}
+			entry.setUri(parsedEntry.getUri());
 			if (entry.loadByUri()) {
-				return;
+				return null;
 			}
 			
 			entry.setFeed(feed);
@@ -358,7 +360,7 @@ public class FeedRetrieverService extends Service {
 				Log.e("AFR", "FeedRetrieverService.retriever.saveItem(): failed to parse '" + parsedEntry.getLink() + "'", e);
 				displayErrorNotification(R.string.feed_retriever_err_unspecified, 
 						feed.getName() != null ? feed.getName() : feed.getUri().toString());
-				return;
+				return null;
 			}
 			
 			// get the content (prefer HTML over plain text)
@@ -385,7 +387,7 @@ public class FeedRetrieverService extends Service {
 				Log.e("AFR", "FeedRetrieverService.retriever.saveItem(): no item content found");
 				displayErrorNotification(R.string.feed_retriever_err_unspecified, 
 						feed.getName() != null ? feed.getName() : feed.getUri().toString());
-				return;
+				return null;
 			}
 			entry.setContent(bestContent.getValue());
 			
@@ -395,8 +397,7 @@ public class FeedRetrieverService extends Service {
 				entry.setType("text/plain");
 			}
 
-			// save the item
-			entry.saveOrUpdate();
+			return entry.getContentValues();
 		}
 	};
 	
