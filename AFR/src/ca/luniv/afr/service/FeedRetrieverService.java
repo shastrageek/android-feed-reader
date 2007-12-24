@@ -132,7 +132,7 @@ public class FeedRetrieverService extends Service {
 			System.setProperty("httpclient.useragent", getString(R.string.app_user_agent_string));
 			HttpClient client = new HttpClient();
 			// set a 10 second timeout
-			client.getParams().setParameter("http.socket.timeout", new Integer(1000));
+			client.getParams().setParameter("http.socket.timeout", new Integer(10000));
 			GetMethod method = new GetMethod(feed.getUri().toString());
 	        
 			Log.i("AFR", "FeedRetrieverService.retriever.download(): retrieving feed from: " + feed.getUri().toString());
