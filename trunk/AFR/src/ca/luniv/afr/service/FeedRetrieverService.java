@@ -129,7 +129,6 @@ public class FeedRetrieverService extends Service {
 		
 		boolean download(Notification notification) {
 			// open a HTTP connection and get the headers
-			String oldUserAgent = System.getProperty("httpclient.useragent");
 			System.setProperty("httpclient.useragent", getString(R.string.app_user_agent_string));
 			HttpClient client = new HttpClient();
 			// set a 10 second timeout
@@ -226,8 +225,6 @@ public class FeedRetrieverService extends Service {
 				return false;
 			} finally {				
 				method.releaseConnection();
-				// reset the user-agent string
-				System.setProperty("httpclient.useragent", oldUserAgent);
 			}
 			
 			return true;
